@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('login.jpg'); /* Replace with the path to your healthcare-related background image */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 login-container">
+                <h2>Healthcare Login Page</h2>
+                <form id="loginForm" onsubmit="authenticateUser(event)">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-danger" onclick="logout()">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kommunicate Chat Widget -->
+    <script type="text/javascript">
+        (function(d, m){
+            var kommunicateSettings = {
+                "appId": "263931a82338c4f2b0eaf8e46be6759ca", // Replace with your Kommunicate App ID
+                "popupWidget": true,
+                "automaticChatOpenOnNavigation": true
+            };
+            var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+            s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+            var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+            window.kommunicate = m;
+            m._globals = kommunicateSettings;
+        })(document, window.kommunicate || {});
+    </script>
+    <!-- End Kommunicate Chat Widget -->
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Variables to store the timeout IDs
+        var logoutTimeout;
+        var redirectTimeout;
+
+        function authenticateUser(event) {
+            event.preventDefault();
+
+            // Get the username and password from the form
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Simulate authentication logic (replace with your actual authentication mechanism)
+            if (username === "patient1" && password === "password1") {
+                // Redirect to the first page for user1
+                redirectToPatient();
+            } else if (username === "doctor1" && password === "password2") {
+                // Redirect to the second page for user2
+                redirectToDoctor();
+            } else {
+                alert("Invalid username or password. Please try again.");
+            }
+        }
+
+        function redirectToPatient() {
+            // Redirect to the first page
+            window.location.href = "https://www.kommunicate.io/livechat-demo?appId=263931a82338c4f2b0eaf8e46be6759ca&botIds=healthbotpatient-bopwc&assignee=healthbotpatient-bopwc";
+            // Reset the timeouts on successful redirection
+            resetTimeouts();
+        }
+
+        function redirectToDoctor() {
+            // Redirect to the second page
+            window.location.href = "https://www.kommunicate.io/livechat-demo?appId=263931a82338c4f2b0eaf8e46be6759ca&botIds=healthbotdoc-sqshc&assignee=healthbotdoc-sqshc";
+            // Reset the timeouts on successful redirection
+            resetTimeouts();
+        }
+
+        function logout() {
+            // Logout from Kommunicate
+            Kommunicate.logout();
+
+            // Perform additional logout actions if needed
+
+            // Clear the timeouts if the logout button is clicked manually
+            clearTimeout(logoutTimeout);
+            clearTimeout(redirectTimeout);
+            alert("Logout successful!");
+        }
+
+        function resetTimeouts() {
+            // Clear the existing timeouts (if any)
+            clearTimeout(logoutTimeout);
+            clearTimeout(redirectTimeout);
+
+            // Set new timeouts for automatic logout after 10 minutes (adjust as needed)
+            logoutTimeout = setTimeout(function() {
+                // Perform automatic logout actions
+                logout();
+            }, 60000); 
+
+            // Set a timeout to redirect to the login page after 20 minutes (adjust as needed)
+            redirectTimeout = setTimeout(function() {
+                // Redirect to the login page
+                window.location.href = "Login_Page.html";
+            }, 60000); 
+        }
+    </script>
+</body>
+</html>
